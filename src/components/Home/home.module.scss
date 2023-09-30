@@ -24,22 +24,21 @@
   width: 100%;
   height: 100%;
 
-  $logo-side: 175px;
   .logo {
-    width: $logo-side;
-    height: $logo-side;
+    height: 40%;
   }
 
   .description {
-    width: 50%;
+    width: 55%;
     text-align: center;
+    font-size: 1.2rem;
   }
 
   &.fadeIn {
-    animation: fadeIn 0.5s forwards;
+    animation: fadeIn var(--fadeTime) forwards;
   }
 
   &.fadeOut {
-    animation: fadeOut 0.5s forwards;
+    animation: fadeOut var(--fadeTime) forwards;
   }
 }

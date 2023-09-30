@@ -8,7 +8,7 @@
   height: 100%;
 
   &.fadeIn {
-    animation: fadeIn 0.5s forwards;
+    animation: fadeIn var(--fadeTime) forwards;
   }
 }
 
