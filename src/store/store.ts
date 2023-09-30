@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { reducer as editReducer } from "./Edit/slice";
+import { reducer as dataReducer } from "./Data/slice";
 
 const store = configureStore({
   reducer: {
     edit: editReducer,
+    data: dataReducer,
   },
 });
 

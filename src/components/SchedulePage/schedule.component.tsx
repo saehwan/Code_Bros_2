@@ -1,21 +1,48 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useMemo, useRef, useState } from "react";
 import styles from "./schedule.module.scss";
 import BackIcon from "../../assets/Back.svg";
 import BackIconDark from "../../assets/BackDark.svg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AppState } from "../../store/store";
+import { itinerary, months } from "../../models/itinerary";
 
 const SchedulePage = (): JSX.Element => {
   const navigate = useNavigate();
 
+  const $itineraries = useSelector((state: AppState) => state.data.itineraries);
+
+  const visibility = useRef<string>("fadeIn");
   const [isBackHovered, setIsBackHovered] = useState(false);
 
   const onBack = (): void => {
     navigate("/travel");
   };
 
+  const groupedItineraries: itinerary[][] = useMemo(() => {
+    const groups: { [key: string]: itinerary[] } = {};
+
+    const sortedItineraries = [...$itineraries].sort((a, b) => {
+      if (a.year !== b.year) {
+        return a.year - b.year;
+      }
+      return a.month - b.month;
+    });
+
+    sortedItineraries.forEach((itineraryItem) => {
+      const key = `${itineraryItem.month}-${itineraryItem.year}`;
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      groups[key].push(itineraryItem);
+    });
+
+    return Object.values(groups);
+  }, [$itineraries]);
+
   return (
     <Fragment>
-      <div className={styles.Schedule}>
+      <div className={`${styles.Schedule} ${styles[visibility.current]}`}>
         <div className={styles.scheduleTopBar}>
           <img
             className={styles.backIcon}
@@ -25,6 +52,28 @@ const SchedulePage = (): JSX.Element => {
             onMouseLeave={(): void => setIsBackHovered(false)}
           />
           <h1 className={styles.title}>Itineraries</h1>
+        </div>
+        <div className={styles.ItenerariesView}>
+          {groupedItineraries.map((iteneraryGroup) => {
+            return (
+              <div
+                className={styles.iteneraryMonthGroup}
+                key={iteneraryGroup[0].id}
+              >
+                <div className={styles.iteneraryMonthGroupTitle}>
+                  {months[iteneraryGroup[0].month - 1] +
+                    " " +
+                    iteneraryGroup[0].year.toString()}
+                </div>
+
+                <div className={styles.cardGrid}>
+                  {iteneraryGroup.map((iteneraryDay) => {
+                    return <>{iteneraryDay.day}</>;
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Fragment>
