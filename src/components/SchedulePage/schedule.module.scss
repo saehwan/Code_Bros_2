@@ -5,20 +5,17 @@
 
   height: 100%;
   width: 100%;
-  overflow-y: auto;
 
   &.fadeIn {
     animation: fadeIn var(--fadeTime) forwards;
   }
 
   .scheduleTopBar {
-    top: 0;
-
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 12%;
+    height: 11%;
     color: var(--primary);
     background-color: inherit;
 
@@ -29,11 +26,12 @@
       margin-left: 15px;
       cursor: pointer;
     }
-
     title {
-      z-index: 1;
       font-size: 1rem;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
     }
+    position: relative;
   }
 
   .ItenerariesView {
@@ -43,6 +41,7 @@
     justify-content: center;
     overflow-y: auto;
     width: 100%;
+    padding-top: 4rem;
 
     .iteneraryMonthGroup {
       width: 95%;
@@ -58,6 +57,7 @@
         align-items: center;
         justify-content: center;
         padding-bottom: 6px;
+
         width: 100%;
         color: var(--primary);
         font-size: 1.1rem;
@@ -72,8 +72,29 @@
       }
     }
   }
-}
 
+  .selectedCard {
+    position: absolute;
+    height: 200px;
+    background-color: red;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+
+  &.dim::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 1;
+  }
+}
 @keyframes fadeIn {
   from {
     opacity: 0;

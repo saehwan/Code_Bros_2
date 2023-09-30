@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store/store";
 import { itinerary, months } from "../../models/itinerary";
+import ItineraryCard from "./ItineraryCard/itinerarycard.component";
 
 const SchedulePage = (): JSX.Element => {
   const navigate = useNavigate();
+
+  const [selectedCard, setSelectedCard] = useState<itinerary | null>(null);
 
   const $itineraries = useSelector((state: AppState) => state.data.itineraries);
 
@@ -42,7 +45,14 @@ const SchedulePage = (): JSX.Element => {
 
   return (
     <Fragment>
-      <div className={`${styles.Schedule} ${styles[visibility.current]}`}>
+      <div
+        className={`${styles.Schedule} ${styles[visibility.current]} ${
+          selectedCard && styles.dim
+        }`}
+        onClick={(): void => {
+          selectedCard && setSelectedCard(null);
+        }}
+      >
         <div className={styles.scheduleTopBar}>
           <img
             className={styles.backIcon}
@@ -67,14 +77,23 @@ const SchedulePage = (): JSX.Element => {
                 </div>
 
                 <div className={styles.cardGrid}>
-                  {iteneraryGroup.map((iteneraryDay) => {
-                    return <>{iteneraryDay.day}</>;
-                  })}
+                  {iteneraryGroup
+                    .sort((a, b) => a.day - b.day)
+                    .map((iteneraryDay) => (
+                      <ItineraryCard
+                        key={iteneraryDay.id}
+                        onClick={(): void => {
+                          setSelectedCard(iteneraryDay);
+                        }}
+                        itinerary={iteneraryDay}
+                      />
+                    ))}
                 </div>
               </div>
             );
           })}
         </div>
+        {selectedCard && <div className={styles.selectedCard}>Hello</div>}
       </div>
     </Fragment>
   );

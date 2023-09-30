@@ -6,7 +6,17 @@ interface DataSlice {
 }
 
 const INITIAL_STATE: DataSlice = {
-  itineraries: [{ id: "Example", month: 2, day: 2, year: 2023 }],
+  itineraries: [
+    { id: "Example", month: 2, day: 2, year: 2023 },
+    { id: "Example1", month: 2, day: 3, year: 2023 },
+    { id: "Example3", month: 2, day: 4, year: 2023 },
+    { id: "Example3", month: 2, day: 5, year: 2023 },
+    { id: "Example4", month: 2, day: 6, year: 2023 },
+    { id: "Example7", month: 12, day: 7, year: 2025 },
+    { id: "Example5", month: 2, day: 7, year: 2023 },
+    { id: "Example6", month: 2, day: 8, year: 2023 },
+    { id: "Example7", month: 2, day: 9, year: 2023 },
+  ],
 };
 
 const slice = createSlice({
