@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface EditState {}
+interface EditState {
+  started: boolean;
+}
 
-const INITIAL_STATE: EditState = {};
+const INITIAL_STATE: EditState = {
+  started: false,
+};
 
 const slice = createSlice({
   name: "edit",

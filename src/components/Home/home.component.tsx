@@ -4,7 +4,7 @@ import styles from "./home.module.scss";
 const Home = (): JSX.Element => {
   return (
     <Fragment>
-      <div className={styles.Home}>This is the Home Component</div>
+      <div className={styles.Home}></div>
     </Fragment>
   );
 };
