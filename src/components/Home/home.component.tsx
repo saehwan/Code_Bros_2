@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./home.module.scss";
 import Logo from "../../assets/Logo.png";
 import { useDispatch } from "react-redux";
@@ -20,12 +20,16 @@ const Home = (): JSX.Element => {
     setVisibility("fadeOut");
 
     const timeout = setTimeout(() => {
-      dispatch(setStarted(true));
       navigate("/travel");
+      dispatch(setStarted(true));
     }, 500);
 
     return () => clearTimeout(timeout);
   };
+
+  useEffect(() => {
+    dispatch(setStarted(false));
+  });
 
   return (
     <div className={`${styles.Home} ${styles[visibility]}`}>

@@ -8,11 +8,27 @@
   overflow-y: auto;
 
   .scheduleTopBar {
+    position: sticky;
+    top: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
+    color: var(--primary);
+    background-color: inherit;
 
     .backIcon {
-      height: 10vh;
+      position: absolute;
+      left: 0;
+      height: 9vh;
+      margin-left: 15px;
       cursor: pointer;
+    }
+
+    title {
+      z-index: 1;
+      font-size: 1rem;
     }
   }
 }

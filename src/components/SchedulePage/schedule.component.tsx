@@ -24,6 +24,7 @@ const SchedulePage = (): JSX.Element => {
             onMouseEnter={(): void => setIsBackHovered(true)}
             onMouseLeave={(): void => setIsBackHovered(false)}
           />
+          <h1 className={styles.title}>Itineraries</h1>
         </div>
       </div>
     </Fragment>
