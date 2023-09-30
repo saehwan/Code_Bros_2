@@ -4,7 +4,7 @@ import styles from "./feedbox.module.scss";
 const FeedBox = (): JSX.Element => {
   return (
     <Fragment>
-      <div className={styles.Home}>This is the Home Component</div>
+      <div className={styles.Feed}>This is the Feed Box</div>
     </Fragment>
   );
 };
