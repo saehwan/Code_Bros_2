@@ -4,7 +4,7 @@ import styles from "./plannerbox.module.scss";
 const PlannerBox = (): JSX.Element => {
   return (
     <Fragment>
-      <div className={styles.Home}>This is the Home Component</div>
+      <div className={styles.Planner}>This is the Planner Box</div>
     </Fragment>
   );
 };
