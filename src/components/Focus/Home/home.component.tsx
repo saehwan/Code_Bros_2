@@ -4,9 +4,11 @@ import Logo from "../../../assets/Logo.png";
 import { useDispatch } from "react-redux";
 import { setStarted } from "../../../store/Edit/slice";
 import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
+import { useNavigate } from "react-router-dom";
 
 const Home = (): JSX.Element => {
   const [visibility, setVisibility] = useState("fadeIn");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onStart = (): (() => void) => {
@@ -15,6 +17,7 @@ const Home = (): JSX.Element => {
     // After the animation completes, dispatch the action
     const timeout = setTimeout(() => {
       dispatch(setStarted(true));
+      navigate("/travel");
     }, 500);
 
     return () => clearTimeout(timeout);
