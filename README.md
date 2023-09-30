@@ -4,6 +4,10 @@
 
 - Aaron Cheng
 - Bruce Quach
+- Andrew Nguyen
+- Saehwan Park
+- Reetu Shrestha
+- Andrew
 
 ## Getting Started
 
@@ -38,7 +42,6 @@ To lint the code, run:
 
 ````
  npm run lint
- ```
 ````
 
 ## Project Structuring Rules
