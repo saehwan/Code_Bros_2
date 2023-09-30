@@ -1,15 +1,26 @@
 .TopBar {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  height: 10%;
   width: 100%;
   height: var(--topBarHeight);
 
   .simpleLogoImage {
     height: 100%;
     cursor: pointer;
+  }
+
+  .simpleScheduleLogo {
+    position: absolute;
+    right: 0;
+    height: 70%;
+    cursor: pointer;
+    padding-right: 1%;
+
+    &:hover {
+      background-image: url("../../assets/TopBar/ScheduleDark.svg");
+    }
   }
 }
