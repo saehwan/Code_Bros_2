@@ -42,7 +42,6 @@ To lint the code, run:
 
 ````
  npm run lint
- ```
 ````
 
 ## Project Structuring Rules
