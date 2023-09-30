@@ -7,7 +7,7 @@ import ThemeButton from "../GlobalComponents/ThemeButton/themebutton.component";
 import { useNavigate } from "react-router-dom";
 
 const description = `Palate Passport is an app developed by Code Bros that
- enhances users' culinary quests. Fellow foodies
+ enhances your culinary quests. Fellow foodies
   can search nearby restaurants and cafes, book reservations, get recommendations,
    and plan out their culinary adventures to obtain a diverse dining experience`;
 
@@ -19,7 +19,6 @@ const Home = (): JSX.Element => {
   const onStart = (): (() => void) => {
     setVisibility("fadeOut");
 
-    // After the animation completes, dispatch the action
     const timeout = setTimeout(() => {
       dispatch(setStarted(true));
       navigate("/travel");

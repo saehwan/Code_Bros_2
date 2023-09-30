@@ -2,13 +2,17 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   width: 100%;
   height: 100%;
 
   &.fadeIn {
     animation: fadeIn var(--fadeTime) forwards;
+  }
+
+  &.fadeOut {
+    animation: fadeOut var(--fadeTime) forwards;
   }
 }
 
@@ -18,5 +22,13 @@
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
