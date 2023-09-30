@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import styles from "./plannerbox.module.scss";
-import ThemeButton from "../GlobalComponents/ThemeButton/themebutton.component";
+import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
 
 const PlannerBox = (): JSX.Element => {
   const [entries, setEntries] = useState<string[]>([]);
