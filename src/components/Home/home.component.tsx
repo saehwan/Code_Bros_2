@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./home.module.scss";
-import Logo from "../../../assets/Logo.png";
+import Logo from "../../assets/Logo.png";
 import { useDispatch } from "react-redux";
-import { setStarted } from "../../../store/Edit/slice";
-import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
+import { setStarted } from "../../store/Edit/slice";
+import ThemeButton from "../GlobalComponents/ThemeButton/themebutton.component";
 import { useNavigate } from "react-router-dom";
 
 const Home = (): JSX.Element => {

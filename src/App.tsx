@@ -3,8 +3,8 @@ import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 import TopBar from "./components/TopBar/topbar.component";
 import BottomBar from "./components/BottomBar/bottombar.component";
-import Focus from "./components/Focus/focus.component";
 import TravelPage from "./components/TravelPage/travel.component";
+import Home from "./components/Home/home.component";
 
 const App = (): JSX.Element => {
   return (
@@ -12,7 +12,7 @@ const App = (): JSX.Element => {
       <TopBar />
       <div className="focusedContent">
         <Routes>
-          <Route path="/" element={<Focus />} index />
+          <Route path="/" element={<Home />} index />
           <Route path="/travel" element={<TravelPage />} />
         </Routes>
       </div>
