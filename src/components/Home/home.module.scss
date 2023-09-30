@@ -30,6 +30,11 @@
     height: $logo-side;
   }
 
+  .description {
+    width: 50%;
+    text-align: center;
+  }
+
   &.fadeIn {
     animation: fadeIn 0.5s forwards;
   }
