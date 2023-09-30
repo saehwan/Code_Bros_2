@@ -12,7 +12,13 @@
   text-align: left;
 
   .PlannerInput {
-    width: 60%;
-    height: 50px;
+    width: 40%;
+  }
+
+  .clockIcon {
+    &:hover {
+      cursor: pointer;
+      color: gray;
+    }
   }
 }

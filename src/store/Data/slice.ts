@@ -32,4 +32,4 @@ const slice = createSlice({
 
 export const reducer = slice.reducer;
 
-export const {} = slice.actions;
+export const { addItinerary } = slice.actions;
