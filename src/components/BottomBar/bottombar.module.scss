@@ -1,0 +1,9 @@
+.BottomBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  height: 10%;
+  width: 100%;
+  height: var(--topBarHeight);
+}
