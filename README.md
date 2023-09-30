@@ -1,13 +1,9 @@
-# Geaux Enroll - CSC 4243 Project
-
-**Team Wireframe Wizards**
+# Code Bros
 
 ## Team Members
 
 - Aaron Cheng
-- Adam Schulte
-- Christian Peytavin
-- Peter Franz
+- Bruce Quach
 
 ## Getting Started
 
