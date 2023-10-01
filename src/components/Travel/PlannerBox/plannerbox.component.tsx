@@ -1,15 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import styles from "./plannerbox.module.scss";
 import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
-import { useSelector } from "react-redux";
-import { AppState } from "../../../store/store";
 import { useDispatch } from "react-redux";
-import {
-  addItinerary,
-  updateItineraryNamesByDate,
-} from "../../../store/Data/slice";
+import { updateItineraryNamesByDate } from "../../../store/Data/slice";
 import { v4 as uuidv4 } from "uuid";
-import { itinerary } from "../../../models/itinerary";
+import { itinerary, meal } from "../../../models/itinerary";
 
 import { Calendar } from "react-calendar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -18,41 +13,36 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Tooltip } from "@mui/material";
 
 const PlannerBox = (): JSX.Element => {
-  const $itineraries = useSelector((state: AppState) => state.data.itineraries);
-
   const dispatch = useDispatch();
 
   const [editingName, setEditingName] = useState(false);
-  const [entries, setEntries] = useState<string[]>([]);
-  const [currentTime, setCurrentTime] = useState("");
-  const [itineraryName, setItineraryName] = useState("");
-  const [currentMeal, setCurrentMeal] = useState("Breakfast");
-  const [addingTime, setAddingTime] = useState(false);
   const [editingDate, setEditingDate] = useState(false);
+
+  const [itineraryName, setItineraryName] = useState("");
+  const [currentMeal, setCurrentMeal] = useState<meal>({
+    time: "",
+    type: "",
+    location: "",
+  });
+  const [addingTime, setAddingTime] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [dateToday, setDateToday] = useState(
-    selectedDate.getMonth() +
-      1 +
-      "/" +
-      selectedDate.getDate() +
-      "/" +
-      selectedDate.getFullYear(),
-  );
-  const [todaysItineraries, setTodaysItineraries] = useState<itinerary[]>([]);
+
+  const resetStates = (): void => {
+    setCurrentMeal({
+      time: "",
+      type: "",
+      location: "",
+    });
+  };
 
   const [newItinerary, setNewItinerary] = useState<itinerary>({
     id: uuidv4(),
     month: selectedDate.getMonth() + 1,
     day: selectedDate.getDate(),
     year: selectedDate.getFullYear(),
-    meal: currentMeal,
-    time: "",
-    name: "",
+    meals: [],
+    title: "",
   });
-
-  const handleAddItinerary = (newItinerary: itinerary): void => {
-    dispatch(addItinerary(newItinerary)); // Dispatch the action with the new itinerary data
-  };
 
   const handleChangeItineraryName = (
     month: number,
@@ -63,38 +53,13 @@ const PlannerBox = (): JSX.Element => {
     dispatch(updateItineraryNamesByDate({ month, day, year, newName }));
   };
 
-  useEffect(() => {
-    console.log(newItinerary);
-  });
-  const timeString = `${currentTime} ${currentMeal} at Finbomb`;
+  const handleMealSubmit = (): void => {
+    setNewItinerary({
+      ...newItinerary,
+      meals: [...newItinerary.meals, currentMeal],
+    });
 
-  useEffect(() => {
-    setTodaysItineraries(
-      $itineraries.filter(
-        (itinerary) =>
-          itinerary.month === selectedDate.getMonth() + 1 &&
-          itinerary.day === selectedDate.getDate() &&
-          itinerary.year === selectedDate.getFullYear(),
-      ),
-    );
-  }, [selectedDate, currentTime, newItinerary]);
-
-  useEffect(() => {
-    setDateToday(
-      selectedDate?.getMonth() +
-        1 +
-        "/" +
-        selectedDate?.getDate() +
-        "/" +
-        selectedDate?.getFullYear(),
-    );
-  }, [selectedDate]);
-
-  const handleTimeEnter = (): void => {
-    setEntries([...entries, timeString]);
-    handleAddItinerary(newItinerary);
-    setCurrentTime("");
-    setAddingTime(false);
+    resetStates();
   };
 
   const convertTimeToModern = (time: string): string => {
@@ -143,30 +108,43 @@ const PlannerBox = (): JSX.Element => {
             alignItems: "center",
           }}
         >
-          <Tooltip title="Choose your itinerary date!" placement="left">
-            <AccessTimeIcon
-              className={styles.icon}
-              style={{ marginRight: "1%" }}
-              onClick={(): void => setEditingDate(!editingDate)}
-            />
-          </Tooltip>
-          {todaysItineraries[0] ? (
-            <span>{todaysItineraries[0].name}</span>
-          ) : (
-            <span>Itinerary for {dateToday}</span>
-          )}
           {!editingName && (
             <Tooltip
               title="Change the name of your daily itinerary."
-              placement="right"
+              placement="left"
+              className={styles.tooltip}
             >
               <EditIcon
                 className={styles.icon}
-                style={{ marginLeft: "1%" }}
+                style={{ marginLeft: "1%", cursor: "pointer" }}
                 onClick={(): void => setEditingName(!editingName)}
               />
             </Tooltip>
           )}
+
+          {newItinerary && (
+            <span className={styles.dateAndTitle}>
+              {newItinerary.title} on{" "}
+              {selectedDate.getMonth() +
+                "/" +
+                selectedDate.getDay() +
+                "/" +
+                selectedDate.getFullYear()}
+            </span>
+          )}
+
+          <Tooltip
+            title="Choose your itinerary date!"
+            placement="right"
+            className={styles.tooltip}
+          >
+            <AccessTimeIcon
+              className={styles.icon}
+              style={{ marginRight: "1%", cursor: "pointer" }}
+              onClick={(): void => setEditingDate(!editingDate)}
+            />
+          </Tooltip>
+
           {editingName && (
             <form style={{ display: "flex", alignItems: "center" }}>
               <input
@@ -182,7 +160,7 @@ const PlannerBox = (): JSX.Element => {
                   setEditingName(false);
                   setNewItinerary({
                     ...newItinerary,
-                    name: itineraryName,
+                    title: itineraryName,
                   });
                   handleChangeItineraryName(
                     selectedDate.getMonth() + 1,
@@ -211,33 +189,23 @@ const PlannerBox = (): JSX.Element => {
               height: 50,
               gap: "3px",
             }}
-            onSubmit={handleTimeEnter}
+            onSubmit={(event): void => {
+              event.preventDefault();
+              handleMealSubmit();
+            }}
           >
             <input
               className={styles.PlannerInput}
               type="time"
               onChange={(e): void => {
-                setCurrentTime(convertTimeToModern(e.target.value));
-                setNewItinerary({
-                  ...newItinerary,
-                  id: uuidv4(),
-                  month: selectedDate?.getMonth() + 1,
-                  year: selectedDate?.getFullYear(),
-                  day: selectedDate?.getDate(),
-                  meal: currentMeal,
-                  time: convertTimeToModern(e.target.value),
-                });
+                setCurrentMeal({ ...currentMeal, time: e.target.value });
               }}
             />
             <select
               className={styles.PlannerInput}
               placeholder="Choose a meal"
               onChange={(e): void => {
-                setCurrentMeal(e.target.value);
-                setNewItinerary({
-                  ...newItinerary,
-                  meal: e.target.value,
-                });
+                setCurrentMeal({ ...currentMeal, type: e.target.value });
               }}
             >
               <option value="Breakfast">Breakfast</option>
@@ -252,9 +220,9 @@ const PlannerBox = (): JSX.Element => {
           </form>
         )}
         <div className={styles.currentItineraryList}>
-          {todaysItineraries.map((entry, index) => (
+          {newItinerary.meals.map((entry, index) => (
             <div style={{ marginTop: "10%" }} key={index}>
-              {entry.time} {entry.meal} at Finbomb
+              {convertTimeToModern(entry.time)} {entry.type} at Finbomb
             </div>
           ))}
         </div>

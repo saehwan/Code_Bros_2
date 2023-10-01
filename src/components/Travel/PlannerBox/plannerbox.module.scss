@@ -13,21 +13,25 @@
   .PlannerInput {
     padding-left: 5px;
     width: 40%;
-    color: var(--white);
-    background-color: var(--primary);
+    height: 60%;
+    color: var(--primary);
+    background-color: var(--white);
     font-size: 1.2em;
-    border: none;
+    border: 1px solid var(--primary);
     border-radius: 3px;
     cursor: pointer;
-    &:hover {
-      background-color: var(--primaryDark);
-    }
   }
   .plus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     color: var(--white);
     background-color: var(--primary);
     border: 2px solid var(--primaryDark);
     cursor: pointer;
+    height: 60%;
 
     &:hover {
       background-color: var(--primaryDark);
@@ -47,5 +51,18 @@
       color: var(--primary);
       font-size: larger;
     }
+  }
+  .tooltip {
+    border-radius: 30px;
+    width: 40px;
+    height: 30px;
+    &:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+  }
+  .dateAndTitle {
+    color: var(--primary);
+    font-size: 1.8rem;
   }
 }
