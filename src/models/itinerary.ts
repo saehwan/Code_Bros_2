@@ -10,6 +10,7 @@ export interface itinerary {
 }
 
 export interface meal {
+  id: string;
   time: string;
   type: string;
   location: string;

@@ -10,7 +10,7 @@ import { Calendar } from "react-calendar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import { Icon, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store/store";
@@ -27,6 +27,7 @@ const PlannerBox = (): JSX.Element => {
 
   const [itineraryName, setItineraryName] = useState("");
   const [currentMeal, setCurrentMeal] = useState<meal>({
+    id: uuidv4(),
     time: "",
     type: "Breakfast",
     location: "",
@@ -81,6 +82,10 @@ const PlannerBox = (): JSX.Element => {
   };
 
   useEffect(() => {
+    console.log(newItinerary.meals);
+  });
+
+  useEffect(() => {
     $selectedRestaurant &&
       setCurrentMeal({ ...currentMeal, location: $selectedRestaurant });
   }, [$selectedRestaurant]);
@@ -126,7 +131,7 @@ const PlannerBox = (): JSX.Element => {
 
           {newItinerary && (
             <span className={styles.dateAndTitle}>
-              {newItinerary.title} on{" "}
+              {newItinerary.title ? newItinerary.title : "Itinerary"} on{" "}
               {selectedDate.getMonth() +
                 1 +
                 "/" +
@@ -204,7 +209,11 @@ const PlannerBox = (): JSX.Element => {
               className={styles.PlannerInput}
               type="time"
               onChange={(e): void => {
-                setCurrentMeal({ ...currentMeal, time: e.target.value });
+                setCurrentMeal({
+                  ...currentMeal,
+                  time: e.target.value,
+                  id: uuidv4(),
+                });
               }}
             />
             <select
@@ -240,10 +249,17 @@ const PlannerBox = (): JSX.Element => {
               <div key={index} className={styles.mealEntry}>
                 {convertTimeToModern(entry.time)} {entry.type} at{" "}
                 {entry.location}
-                <Icon>
-                  {" "}
-                  <Delete />
-                </Icon>
+                <Delete
+                  className={styles.icon}
+                  onClick={(): void =>
+                    setNewItinerary({
+                      ...newItinerary,
+                      meals: newItinerary.meals.filter(
+                        (meal) => meal.id !== entry.id,
+                      ),
+                    })
+                  }
+                />
               </div>
             ))}
         </div>
