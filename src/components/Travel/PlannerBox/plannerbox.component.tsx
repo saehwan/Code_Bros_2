@@ -60,27 +60,6 @@ const PlannerBox = (): JSX.Element => {
     });
   };
 
-  const convertTimeToModern = (time: string): string => {
-    const parts = time.split(":");
-
-    let hours = parseInt(parts[0], 10);
-    const minutes: string = parts[1];
-
-    let ampm = "AM";
-    if (hours >= 12) {
-      ampm = "PM";
-      if (hours > 12) {
-        hours -= 12;
-      }
-    } else if (hours === 0) {
-      hours = 12;
-    }
-
-    const convertedTimeString = `${hours}:${minutes} ${ampm}`;
-
-    return convertedTimeString;
-  };
-
   useEffect(() => {
     console.log(newItinerary.meals);
   });
@@ -188,7 +167,8 @@ const PlannerBox = (): JSX.Element => {
           />
         </div>
         <div style={{ marginTop: "1%", marginBottom: "1%" }}>
-          Currently Selected Restaurant: {$selectedRestaurant}
+          Currently Selected Restaurant:{" "}
+          {$selectedRestaurant ? $selectedRestaurant : "N/A"}
         </div>
         {addingTime && (
           <form
@@ -232,7 +212,11 @@ const PlannerBox = (): JSX.Element => {
             <button
               className={styles.plus}
               type="submit"
-              disabled={currentMeal.time === "" || currentMeal.type === ""}
+              disabled={
+                currentMeal.time === "" ||
+                currentMeal.type === "" ||
+                $selectedRestaurant === undefined
+              }
             >
               +
             </button>
@@ -269,3 +253,24 @@ const PlannerBox = (): JSX.Element => {
 };
 
 export default PlannerBox;
+
+export const convertTimeToModern = (time: string): string => {
+  const parts = time.split(":");
+
+  let hours = parseInt(parts[0], 10);
+  const minutes: string = parts[1];
+
+  let ampm = "AM";
+  if (hours >= 12) {
+    ampm = "PM";
+    if (hours > 12) {
+      hours -= 12;
+    }
+  } else if (hours === 0) {
+    hours = 12;
+  }
+
+  const convertedTimeString = `${hours}:${minutes} ${ampm}`;
+
+  return convertedTimeString;
+};

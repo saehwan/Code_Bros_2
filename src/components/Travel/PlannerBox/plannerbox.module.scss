@@ -46,13 +46,12 @@
         cursor: pointer;
       }
     }
-
-    .currentItineraryList {
-      color: var(--primary);
-      font-size: larger;
-    }
   }
-
+  .currentItineraryList {
+    color: var(--primary);
+    font-size: larger;
+    overflow-y: auto;
+  }
   .mealEntry {
     display: flex;
     flex-direction: row;

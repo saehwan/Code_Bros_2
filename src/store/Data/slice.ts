@@ -13,7 +13,7 @@ const INITIAL_STATE: DataSlice = {
       month: 2,
       day: 2,
       year: 2023,
-      meals: [],
+      meals: [{ type: "Brunch", time: "7:30", location: "Aaron's House" }],
     },
     {
       title: "Houston Trip",
@@ -32,16 +32,8 @@ const INITIAL_STATE: DataSlice = {
       meals: [],
     },
     {
-      title: "Houston Trip",
-      id: "Example3",
-      month: 2,
-      day: 5,
-      year: 2023,
-      meals: [],
-    },
-    {
-      title: "Houston Trip",
       id: "Example4",
+      title: "Houston Trip",
       month: 2,
       day: 6,
       year: 2023,
@@ -56,32 +48,8 @@ const INITIAL_STATE: DataSlice = {
       meals: [],
     },
     {
-      title: "Houston Trip",
-      id: "Example5",
-      month: 2,
-      day: 7,
-      year: 2023,
-      meals: [],
-    },
-    {
-      title: "Houston Trip",
-      id: "Example6",
-      month: 2,
-      day: 8,
-      year: 2023,
-      meals: [],
-    },
-    {
-      title: "Houston Trip",
-      id: "Example7",
-      month: 2,
-      day: 9,
-      year: 2023,
-      meals: [],
-    },
-    {
-      title: "Atlanta Trip",
       id: "beans",
+      title: "Atlanta Trip",
       month: 9,
       day: 30,
       year: 2023,
@@ -104,6 +72,11 @@ const slice = createSlice({
   reducers: {
     addItinerary: (state, action: PayloadAction<itinerary>) => {
       state.itineraries.push(action.payload);
+    },
+    deleteItinerary: (state, action: PayloadAction<string>) => {
+      state.itineraries = state.itineraries.filter(
+        (itinierary) => itinierary.id !== action.payload,
+      );
     },
     updateItineraryNamesByDate: (
       state,
@@ -132,4 +105,5 @@ const slice = createSlice({
 
 export const reducer = slice.reducer;
 
-export const { addItinerary, updateItineraryNamesByDate } = slice.actions;
+export const { addItinerary, updateItineraryNamesByDate, deleteItinerary } =
+  slice.actions;

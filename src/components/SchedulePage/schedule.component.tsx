@@ -8,11 +8,14 @@ import { AppState } from "../../store/store";
 import { itinerary, months } from "../../models/itinerary";
 import ItineraryCard from "./ItineraryCard/itinerarycard.component";
 import DropdownSelector from "./DropDownFilter/dropdownfilter.component";
+import ItineraryPopover from "./ItineraryPopOver/itinerarypopover.component";
 
 const SchedulePage = (): JSX.Element => {
   const navigate = useNavigate();
 
-  const [selectedCard, setSelectedCard] = useState<itinerary | null>(null);
+  const [selectedItinerary, setSelectedItinerary] = useState<itinerary | null>(
+    null,
+  );
   const [monthFilter, setMonthFilter] = useState<string>("");
   const [yearFilter, setYearFilter] = useState<string>("");
 
@@ -62,10 +65,10 @@ const SchedulePage = (): JSX.Element => {
     <Fragment>
       <div
         className={`${styles.Schedule} ${styles[visibility.current]} ${
-          selectedCard && styles.dim
+          selectedItinerary && styles.dim
         }`}
         onClick={(): void => {
-          selectedCard && setSelectedCard(null);
+          selectedItinerary && setSelectedItinerary(null);
         }}
       >
         <div className={styles.scheduleTopBar}>
@@ -123,7 +126,7 @@ const SchedulePage = (): JSX.Element => {
                       <ItineraryCard
                         key={iteneraryDay.id}
                         onClick={(): void => {
-                          setSelectedCard(iteneraryDay);
+                          setSelectedItinerary(iteneraryDay);
                         }}
                         itinerary={iteneraryDay}
                       />
@@ -133,7 +136,12 @@ const SchedulePage = (): JSX.Element => {
             );
           })}
         </div>
-        {selectedCard && <div className={styles.selectedCard}>Hello</div>}
+        {selectedItinerary && (
+          <ItineraryPopover
+            itinerary={selectedItinerary}
+            localStateChanger={setSelectedItinerary}
+          />
+        )}
       </div>
     </Fragment>
   );
