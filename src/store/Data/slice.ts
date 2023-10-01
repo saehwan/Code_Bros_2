@@ -8,7 +8,7 @@ interface DataSlice {
 const INITIAL_STATE: DataSlice = {
   itineraries: [
     {
-      title: "Houston Trip",
+      title: "Houston Trip Day 1",
       id: "Example",
       month: 2,
       day: 2,
@@ -17,13 +17,19 @@ const INITIAL_STATE: DataSlice = {
         {
           id: "meal1",
           type: "Brunch",
-          time: "7:30",
+          time: "10:30",
           location: "Aaron's House",
+        },
+        {
+          id: "meal2",
+          type: "Dinner",
+          time: "20:30",
+          location: "Bruce's House",
         },
       ],
     },
     {
-      title: "Houston Trip",
+      title: "Houston Trip Day 2",
       id: "Example1",
       month: 2,
       day: 3,
@@ -31,27 +37,11 @@ const INITIAL_STATE: DataSlice = {
       meals: [],
     },
     {
-      title: "Houston Trip",
+      title: "Houston Trip Day 3",
       id: "Example3",
       month: 2,
       day: 4,
       year: 2023,
-      meals: [],
-    },
-    {
-      id: "Example4",
-      title: "Houston Trip",
-      month: 2,
-      day: 6,
-      year: 2023,
-      meals: [],
-    },
-    {
-      title: "Houston Trip",
-      id: "Example7",
-      month: 12,
-      day: 7,
-      year: 2025,
       meals: [],
     },
     {

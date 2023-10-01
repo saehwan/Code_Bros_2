@@ -21,7 +21,7 @@ const ItineraryCard: React.FC<CardProps> = ({ itinerary, onClick }) => {
           {months[itinerary.month - 1] + " " + itinerary.day}
         </h2>
         <p className={styles.card__description}>
-          {itinerary.title && <h1>{itinerary.title}</h1>}
+          {itinerary.title ? <h1>{itinerary.title}</h1> : <h1>Itinerary</h1>}
         </p>
       </div>
     </div>

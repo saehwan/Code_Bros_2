@@ -26,7 +26,7 @@ const PlannerBox = (): JSX.Element => {
   const $selectedRestaurant = useSelector(
     (state: AppState) => state.edit.selectedResturaunt,
   );
-
+  const [mealAddable, setMealAddable] = useState<boolean>(false);
   const [editingName, setEditingName] = useState(false);
   const [editingDate, setEditingDate] = useState(false);
 
@@ -63,6 +63,7 @@ const PlannerBox = (): JSX.Element => {
       ...newItinerary,
       meals: [...newItinerary.meals, currentMeal],
     });
+    dispatch(resetSelectedResturaunt());
     setAddingTime(!addingTime);
   };
 
@@ -108,69 +109,28 @@ const PlannerBox = (): JSX.Element => {
     setEditingDate(false);
   };
 
+  useEffect(() => {
+    if (
+      !$selectedRestaurant ||
+      currentMeal.time === "" ||
+      currentMeal.type === ""
+    )
+      setMealAddable(false);
+    else setMealAddable(true);
+  }, [$selectedRestaurant, currentMeal]);
+
   return (
     <Fragment>
       <div className={styles.Planner}>
         <div style={{ width: "50%" }}>
-          {editingDate && (
-            <Calendar
-              value={selectedDate}
-              onChange={(e): void => handleDateChange(e as Date)}
-            />
-          )}
-        </div>
-        <div
-          style={{
-            marginBottom: "1%",
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {!editingName && (
-            <Tooltip
-              title="Change the name of your daily itinerary."
-              placement="left"
-              className={styles.tooltip}
-            >
-              <EditIcon
-                className={styles.icon}
-                style={{ marginLeft: "1%", cursor: "pointer" }}
-                onClick={(): void => setEditingName(!editingName)}
-              />
-            </Tooltip>
-          )}
-
-          {newItinerary && (
-            <span className={styles.dateAndTitle}>
-              {newItinerary.title ? newItinerary.title : "Itinerary"} on{" "}
-              {selectedDate.getMonth() +
-                1 +
-                "/" +
-                selectedDate.getDate() +
-                "/" +
-                selectedDate.getFullYear()}
-            </span>
-          )}
-
-          <Tooltip
-            title="Choose your itinerary date!"
-            placement="right"
-            className={styles.tooltip}
-          >
-            <AccessTimeIcon
-              className={styles.icon}
-              style={{ marginRight: "1%", cursor: "pointer" }}
-              onClick={(): void => setEditingDate(!editingDate)}
-            />
-          </Tooltip>
-
           {editingName && (
             <form style={{ display: "flex", alignItems: "center" }}>
               <input
                 value={itineraryName}
-                style={{ marginLeft: "1%", width: "50%" }}
+                style={{
+                  marginLeft: "1%",
+                  marginRight: "3%",
+                }}
                 onChange={(e): void => {
                   setItineraryName(e.target.value);
                 }}
@@ -193,6 +153,63 @@ const PlannerBox = (): JSX.Element => {
               />
             </form>
           )}
+          {editingDate && (
+            <Calendar
+              value={selectedDate}
+              onChange={(e): void => handleDateChange(e as Date)}
+            />
+          )}
+        </div>
+        <div
+          style={{
+            marginBottom: "1%",
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Tooltip
+            title="Change the name of your daily itinerary."
+            placement="left"
+            className={styles.tooltip}
+          >
+            <EditIcon
+              className={styles.icon}
+              style={{ marginLeft: "1%", cursor: "pointer" }}
+              onClick={(): void => {
+                setEditingDate(false);
+                setEditingName(!editingName);
+              }}
+            />
+          </Tooltip>
+
+          {newItinerary && (
+            <span className={styles.dateAndTitle}>
+              {newItinerary.title ? newItinerary.title : "Itinerary"} on{" "}
+              {selectedDate.getMonth() +
+                1 +
+                "/" +
+                selectedDate.getDate() +
+                "/" +
+                selectedDate.getFullYear()}
+            </span>
+          )}
+
+          <Tooltip
+            title="Choose your itinerary date!"
+            placement="right"
+            className={styles.tooltip}
+          >
+            <AccessTimeIcon
+              className={styles.icon}
+              style={{ marginRight: "1%", cursor: "pointer" }}
+              onClick={(): void => {
+                setEditingName(false);
+                setEditingDate(!editingDate);
+              }}
+            />
+          </Tooltip>
         </div>
         <div>
           <ThemeButton
@@ -247,7 +264,7 @@ const PlannerBox = (): JSX.Element => {
               <option value="Snack">Snack</option>
             </select>
             <button
-              className={styles.plus}
+              className={mealAddable ? styles.plus : styles.plusDisabled}
               type="submit"
               disabled={
                 currentMeal.time === "" ||
