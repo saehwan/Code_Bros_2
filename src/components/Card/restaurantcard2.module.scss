@@ -19,8 +19,7 @@
   }
 
   .image-container img {
-    max-width: 100%; /* Ensure the image does not exceed its container's width */
-    height: auto; /* Allow the image to scale proportionally */
+    max-width: 100%; /* Ensure the image does not exceed its container's width */ /* Allow the image to scale proportionally */
     border-radius: 10px; /* Add rounded corners to the image */
   }
 
