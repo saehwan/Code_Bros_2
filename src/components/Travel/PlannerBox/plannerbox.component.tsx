@@ -10,7 +10,8 @@ import { Calendar } from "react-calendar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import { Tooltip } from "@mui/material";
+import { Icon, Tooltip } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 const PlannerBox = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -21,19 +22,11 @@ const PlannerBox = (): JSX.Element => {
   const [itineraryName, setItineraryName] = useState("");
   const [currentMeal, setCurrentMeal] = useState<meal>({
     time: "",
-    type: "",
+    type: "Breakfast",
     location: "",
   });
   const [addingTime, setAddingTime] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
-  const resetStates = (): void => {
-    setCurrentMeal({
-      time: "",
-      type: "",
-      location: "",
-    });
-  };
 
   const [newItinerary, setNewItinerary] = useState<itinerary>({
     id: uuidv4(),
@@ -58,8 +51,6 @@ const PlannerBox = (): JSX.Element => {
       ...newItinerary,
       meals: [...newItinerary.meals, currentMeal],
     });
-
-    resetStates();
   };
 
   const convertTimeToModern = (time: string): string => {
@@ -214,17 +205,31 @@ const PlannerBox = (): JSX.Element => {
               <option value="Dinner">Dinner</option>
               <option value="Snack">Snack</option>
             </select>
-            <button className={styles.plus} type="submit">
+            <button
+              className={styles.plus}
+              type="submit"
+              disabled={currentMeal.time === "" || currentMeal.type === ""}
+            >
               +
             </button>
           </form>
         )}
         <div className={styles.currentItineraryList}>
-          {newItinerary.meals.map((entry, index) => (
-            <div style={{ marginTop: "10%" }} key={index}>
-              {convertTimeToModern(entry.time)} {entry.type} at Finbomb
-            </div>
-          ))}
+          {newItinerary.meals
+            .sort((a, b) => {
+              const dateA = new Date(`1970-01-01 ${a.time}`);
+              const dateB = new Date(`1970-01-01 ${b.time}`);
+              return dateA.getTime() - dateB.getTime();
+            })
+            .map((entry, index) => (
+              <div key={index} className={styles.mealEntry}>
+                {convertTimeToModern(entry.time)} {entry.type} at Finbomb
+                <Icon>
+                  {" "}
+                  <Delete />
+                </Icon>
+              </div>
+            ))}
         </div>
       </div>
     </Fragment>

@@ -4,11 +4,12 @@
   overflow: hidden;
   transition: box-shadow 0.3s;
   cursor: pointer;
-
+  transition: 0.5s;
   &:hover {
+    transition: 0.5s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-3px);
-    background: linear-gradient(180deg, #ffd700, #cdf006);
+    background: linear-gradient(180deg, var(--white), #ffd700);
   }
 
   &__image {
