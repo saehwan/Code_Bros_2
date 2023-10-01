@@ -1,13 +1,13 @@
-const corsAnywhere = require('cors-anywhere');
+import { createServer } from "cors-anywhere";
 
 // Set up CORS Anywhere's options
 const corsOptions = {
   // Whitelist specific origins (e.g., your React app's origin)
-  originWhitelist: ['http://localhost:3000'],
+  originWhitelist: ["http://localhost:3000"],
 };
 
 // Create the CORS Anywhere server
-const server = corsAnywhere.createServer(corsOptions);
+const server = createServer(corsOptions);
 
 // Define the port to run the proxy server on
 const PORT = process.env.PORT || 8080;
