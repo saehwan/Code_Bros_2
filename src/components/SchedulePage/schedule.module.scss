@@ -19,7 +19,7 @@
     color: var(--primary);
     background-color: inherit;
 
-    border-bottom: 2px solid var(--primary);
+    border-bottom: 4px solid var(--primary);
 
     .backIcon {
       position: absolute;
@@ -55,7 +55,7 @@
     justify-content: center;
     overflow-y: auto;
     width: 100%;
-    padding-top: 1rem;
+    padding-top: 8rem;
 
     .iteneraryMonthGroup {
       width: 95%;

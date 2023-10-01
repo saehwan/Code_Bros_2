@@ -1,6 +1,7 @@
 :root {
   --white: #fff7ec;
   --primary: #335f7c;
+  --primaryDark: #224053;
 
   --fadeTime: 0.4s;
 
@@ -41,9 +42,9 @@
   background: var(--white);
 }
 ::-webkit-scrollbar-thumb {
-  background: #555;
+  background: var(--primary);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #888;
+  background: var(--primaryDark);
 }
