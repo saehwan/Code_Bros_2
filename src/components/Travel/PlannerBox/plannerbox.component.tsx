@@ -27,7 +27,7 @@ const PlannerBox = (): JSX.Element => {
 
   const [itineraryName, setItineraryName] = useState("");
   const [currentMeal, setCurrentMeal] = useState<meal>({
-    id: uuidv4(),
+    id: "",
     time: "",
     type: "Breakfast",
     location: "",
@@ -58,11 +58,8 @@ const PlannerBox = (): JSX.Element => {
       ...newItinerary,
       meals: [...newItinerary.meals, currentMeal],
     });
+    setAddingTime(!addingTime);
   };
-
-  useEffect(() => {
-    console.log(newItinerary.meals);
-  });
 
   useEffect(() => {
     $selectedRestaurant &&
@@ -163,7 +160,10 @@ const PlannerBox = (): JSX.Element => {
         <div>
           <ThemeButton
             text={addingTime ? "Cancel Add" : "+ Add New Event"}
-            onClick={(): void => setAddingTime(!addingTime)}
+            onClick={(): void => {
+              setAddingTime(!addingTime);
+              setCurrentMeal({ ...currentMeal, id: uuidv4() });
+            }}
           />
         </div>
         <div style={{ marginTop: "1%", marginBottom: "1%" }}>
@@ -192,7 +192,6 @@ const PlannerBox = (): JSX.Element => {
                 setCurrentMeal({
                   ...currentMeal,
                   time: e.target.value,
-                  id: uuidv4(),
                 });
               }}
             />
