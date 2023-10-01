@@ -3,9 +3,6 @@ import styles from "./travel.module.scss";
 import FeedBox from "../FeedBox/feedbox.component";
 import PlannerBox from "../PlannerBox/plannerbox.component";
 
-
-
-
 const TravelPage = (): JSX.Element => {
   const visibility = useRef<string>("fadeIn");
 
