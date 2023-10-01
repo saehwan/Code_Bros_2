@@ -13,7 +13,14 @@ const INITIAL_STATE: DataSlice = {
       month: 2,
       day: 2,
       year: 2023,
-      meals: [{ id: "meal1", type: "Brunch", time: "7:30", location: "Aaron's House" }],
+      meals: [
+        {
+          id: "meal1",
+          type: "Brunch",
+          time: "7:30",
+          location: "Aaron's House",
+        },
+      ],
     },
     {
       title: "Houston Trip",
