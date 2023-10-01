@@ -25,7 +25,7 @@ const PlannerBox = (): JSX.Element => {
   const $selectedRestaurant = useSelector(
     (state: AppState) => state.edit.selectedResturaunt,
   );
-
+  const [mealAddable, setMealAddable] = useState<boolean>(false);
   const [editingName, setEditingName] = useState(false);
   const [editingDate, setEditingDate] = useState(false);
 
@@ -62,6 +62,7 @@ const PlannerBox = (): JSX.Element => {
       ...newItinerary,
       meals: [...newItinerary.meals, currentMeal],
     });
+    dispatch(resetSelectedResturaunt());
     setAddingTime(!addingTime);
   };
 
@@ -94,6 +95,16 @@ const PlannerBox = (): JSX.Element => {
     setSelectedDate(date);
     setEditingDate(false);
   };
+
+  useEffect(() => {
+    if (
+      !$selectedRestaurant ||
+      currentMeal.time === "" ||
+      currentMeal.type === ""
+    )
+      setMealAddable(false);
+    else setMealAddable(true);
+  }, [$selectedRestaurant, currentMeal]);
 
   return (
     <Fragment>
@@ -239,7 +250,7 @@ const PlannerBox = (): JSX.Element => {
               <option value="Snack">Snack</option>
             </select>
             <button
-              className={styles.plus}
+              className={mealAddable ? styles.plus : styles.plusDisabled}
               type="submit"
               disabled={
                 currentMeal.time === "" ||

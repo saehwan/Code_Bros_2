@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useRef, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./schedule.module.scss";
 import BackIcon from "../../assets/Back.svg";
 import BackIconDark from "../../assets/BackDark.svg";
@@ -18,6 +18,8 @@ const SchedulePage = (): JSX.Element => {
   );
   const [monthFilter, setMonthFilter] = useState<string>("");
   const [yearFilter, setYearFilter] = useState<string>("");
+
+  useEffect(() => {}, []);
 
   const $itineraries = useSelector((state: AppState) => state.data.itineraries);
 
