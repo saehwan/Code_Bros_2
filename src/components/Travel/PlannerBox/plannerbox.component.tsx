@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import styles from "./plannerbox.module.scss";
 import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
 import { useDispatch } from "react-redux";
@@ -12,9 +12,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { Icon, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../store/store";
 
 const PlannerBox = (): JSX.Element => {
   const dispatch = useDispatch();
+
+  const $selectedRestaurant = useSelector(
+    (state: AppState) => state.edit.selectedResturaunt,
+  );
 
   const [editingName, setEditingName] = useState(false);
   const [editingDate, setEditingDate] = useState(false);
@@ -52,6 +58,11 @@ const PlannerBox = (): JSX.Element => {
       meals: [...newItinerary.meals, currentMeal],
     });
   };
+
+  useEffect(() => {
+    $selectedRestaurant &&
+      setCurrentMeal({ ...currentMeal, location: $selectedRestaurant });
+  }, [$selectedRestaurant]);
 
   const handleDateChange = (date: Date): void => {
     setSelectedDate(date);
@@ -96,8 +107,9 @@ const PlannerBox = (): JSX.Element => {
             <span className={styles.dateAndTitle}>
               {newItinerary.title} on{" "}
               {selectedDate.getMonth() +
+                1 +
                 "/" +
-                selectedDate.getDay() +
+                selectedDate.getDate() +
                 "/" +
                 selectedDate.getFullYear()}
             </span>
@@ -148,6 +160,9 @@ const PlannerBox = (): JSX.Element => {
             text={addingTime ? "Cancel Add" : "+ Add New Event"}
             onClick={(): void => setAddingTime(!addingTime)}
           />
+        </div>
+        <div style={{ marginTop: "1%", marginBottom: "1%" }}>
+          Currently Selected Restaurant: {$selectedRestaurant}
         </div>
         {addingTime && (
           <form
@@ -202,7 +217,8 @@ const PlannerBox = (): JSX.Element => {
             })
             .map((entry, index) => (
               <div key={index} className={styles.mealEntry}>
-                {convertTimeToModern(entry.time)} {entry.type} at Finbomb
+                {convertTimeToModern(entry.time)} {entry.type} at{" "}
+                {entry.location}
                 <Icon>
                   {" "}
                   <Delete />
@@ -214,6 +230,7 @@ const PlannerBox = (): JSX.Element => {
     </Fragment>
   );
 };
+
 export default PlannerBox;
 
 export const convertTimeToModern = (time: string): string => {

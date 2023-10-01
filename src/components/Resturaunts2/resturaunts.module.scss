@@ -47,6 +47,7 @@
   max-height: 550px; /* Set a fixed height for the container */
   overflow-y: auto; /* Add a vertical scrollbar when needed */
   border: 1px solid #ccc; /* Add a border for visual clarity */
+  margin: auto;
 
   /* Define other styles for your components as needed */
 }
@@ -92,4 +93,8 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #0056b3; /* Hover background color */
+}
+
+.restaurant-card {
+  display: flex;
 }
