@@ -57,6 +57,7 @@
     width: 100%;
     padding-top: 1rem;
     overflow-x: hidden;
+    flex: 1;
 
     .iteneraryMonthGroup {
       width: 95%;
@@ -83,6 +84,7 @@
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 5px;
+        position: relative;
       }
     }
   }
