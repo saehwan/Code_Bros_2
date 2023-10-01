@@ -2,7 +2,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import styles from "./plannerbox.module.scss";
 import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
 import { useDispatch } from "react-redux";
-import { updateItineraryNamesByDate } from "../../../store/Data/slice";
+import {
+  addItinerary,
+  updateItineraryNamesByDate,
+} from "../../../store/Data/slice";
 import { v4 as uuidv4 } from "uuid";
 import { itinerary, meal } from "../../../models/itinerary";
 
@@ -10,10 +13,11 @@ import { Calendar } from "react-calendar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import { Tooltip } from "@mui/material";
+import { Icon, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store/store";
+import { resetSelectedResturaunt } from "../../../store/Edit/slice";
 
 const PlannerBox = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -60,9 +64,25 @@ const PlannerBox = (): JSX.Element => {
     });
   };
 
-  useEffect(() => {
-    console.log(newItinerary.meals);
-  });
+  const handleFinishItinerary = (): void => {
+    setEditingName(false);
+    setEditingDate(false);
+    setAddingTime(false);
+    setItineraryName("");
+
+    dispatch(addItinerary(newItinerary));
+
+    setNewItinerary({
+      id: uuidv4(),
+      month: selectedDate.getMonth() + 1,
+      day: selectedDate.getDate(),
+      year: selectedDate.getFullYear(),
+      meals: [],
+      title: "",
+    });
+
+    dispatch(resetSelectedResturaunt());
+  };
 
   useEffect(() => {
     $selectedRestaurant &&
@@ -233,20 +253,28 @@ const PlannerBox = (): JSX.Element => {
               <div key={index} className={styles.mealEntry}>
                 {convertTimeToModern(entry.time)} {entry.type} at{" "}
                 {entry.location}
-                <Delete
-                  className={styles.icon}
-                  onClick={(): void =>
-                    setNewItinerary({
-                      ...newItinerary,
-                      meals: newItinerary.meals.filter(
-                        (meal) => meal.id !== entry.id,
-                      ),
-                    })
-                  }
-                />
+                <Icon>
+                  <Delete
+                    className={styles.icon}
+                    onClick={(): void =>
+                      setNewItinerary({
+                        ...newItinerary,
+                        meals: newItinerary.meals.filter(
+                          (meal) => meal.id !== entry.id,
+                        ),
+                      })
+                    }
+                  />
+                </Icon>
               </div>
             ))}
         </div>
+        {newItinerary.meals.length > 0 && newItinerary.day && (
+          <ThemeButton
+            text={"Save Itinerary"}
+            onClick={(): void => handleFinishItinerary()}
+          />
+        )}
       </div>
     </Fragment>
   );
