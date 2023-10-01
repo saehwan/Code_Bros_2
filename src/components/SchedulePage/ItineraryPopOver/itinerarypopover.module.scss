@@ -41,8 +41,9 @@
     .mealsContainer {
       display: flex;
       border-top: 3px dashed var(--primaryDark);
+      gap: 10px;
 
-      padding-top: 2%;
+      padding-top: 4%;
       width: 100%;
       flex-direction: column;
       justify-content: flex-start;
@@ -54,7 +55,7 @@
       .mealEntry {
         width: 100%;
         margin-left: 7%;
-        font-size: 1.2rem;
+        font-size: 1.35rem;
       }
     }
   }

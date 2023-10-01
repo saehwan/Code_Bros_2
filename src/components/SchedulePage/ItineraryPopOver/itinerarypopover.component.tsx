@@ -67,12 +67,13 @@ const ItineraryPopover: React.FC<PopoverProps> = ({
           )}
         </div>
         <div className={styles.mealsContainer}>
-          {itinerary.meals
+          {[...itinerary.meals]
             .sort((a, b) => {
               const dateA = new Date(`1970-01-01 ${a.time}`);
               const dateB = new Date(`1970-01-01 ${b.time}`);
               return dateA.getTime() - dateB.getTime();
             })
+
             .map((entry, index) => (
               <div key={index} className={styles.mealEntry}>
                 {convertTimeToModern(entry.time)} {entry.type} at{" "}

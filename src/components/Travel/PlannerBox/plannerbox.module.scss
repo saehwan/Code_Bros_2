@@ -47,6 +47,7 @@
   .icon {
     border-radius: 15px;
     cursor: pointer;
+    color: var(--primaryDark);
     &:hover {
       color: var(--white);
       background-color: var(--primary);
@@ -77,6 +78,7 @@
     width: 40px;
     height: 30px;
     transition: 0.2s;
+    color: var(--primaryDark);
     &:hover {
       transition: 0.2s;
       background-color: var(--primary);
