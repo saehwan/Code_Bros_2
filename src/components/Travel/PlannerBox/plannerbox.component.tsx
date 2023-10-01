@@ -21,7 +21,6 @@ import { resetSelectedResturaunt } from "../../../store/Edit/slice";
 
 const PlannerBox = (): JSX.Element => {
   const dispatch = useDispatch();
-  const $itineraries = useSelector((state: AppState) => state.data.itineraries);
 
   const $selectedRestaurant = useSelector(
     (state: AppState) => state.edit.selectedResturaunt,
@@ -73,7 +72,14 @@ const PlannerBox = (): JSX.Element => {
     setAddingTime(false);
     setItineraryName("");
 
-    dispatch(addItinerary(newItinerary));
+    dispatch(
+      addItinerary({
+        ...newItinerary,
+        month: selectedDate.getMonth() + 1,
+        day: selectedDate.getDate(),
+        year: selectedDate.getFullYear(),
+      }),
+    );
 
     setNewItinerary({
       id: uuidv4(),
@@ -91,18 +97,6 @@ const PlannerBox = (): JSX.Element => {
     $selectedRestaurant &&
       setCurrentMeal({ ...currentMeal, location: $selectedRestaurant });
   }, [$selectedRestaurant]);
-
-  useEffect(() => {
-    console.log(
-      $itineraries.find((itinerary) => {
-        return (
-          itinerary.month === selectedDate.getMonth() + 1 &&
-          itinerary.day === selectedDate.getDate() &&
-          itinerary.year === selectedDate.getFullYear()
-        );
-      }),
-    );
-  }, [selectedDate]);
 
   const handleDateChange = (date: Date): void => {
     setSelectedDate(date);
