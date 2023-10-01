@@ -7,11 +7,14 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../store/store";
 import { itinerary, months } from "../../models/itinerary";
 import ItineraryCard from "./ItineraryCard/itinerarycard.component";
+import DropdownSelector from "./DropDownFilter/dropdownfilter.component";
 
 const SchedulePage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const [selectedCard, setSelectedCard] = useState<itinerary | null>(null);
+  const [monthFilter, setMonthFilter] = useState<string>("");
+  const [yearFilter, setYearFilter] = useState<string>("");
 
   const $itineraries = useSelector((state: AppState) => state.data.itineraries);
 
@@ -25,12 +28,24 @@ const SchedulePage = (): JSX.Element => {
   const groupedItineraries: itinerary[][] = useMemo(() => {
     const groups: { [key: string]: itinerary[] } = {};
 
-    const sortedItineraries = [...$itineraries].sort((a, b) => {
-      if (a.year !== b.year) {
-        return a.year - b.year;
-      }
-      return a.month - b.month;
-    });
+    const sortedItineraries = [...$itineraries]
+      .filter((itinerary) => {
+        if (yearFilter && Number(yearFilter) !== itinerary.year) {
+          return false;
+        }
+
+        if (monthFilter && months[itinerary.month - 1] !== monthFilter) {
+          return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        if (a.year !== b.year) {
+          return a.year - b.year;
+        }
+        return a.month - b.month;
+      });
 
     sortedItineraries.forEach((itineraryItem) => {
       const key = `${itineraryItem.month}-${itineraryItem.year}`;
@@ -41,7 +56,7 @@ const SchedulePage = (): JSX.Element => {
     });
 
     return Object.values(groups);
-  }, [$itineraries]);
+  }, [$itineraries, yearFilter, monthFilter]);
 
   return (
     <Fragment>
@@ -62,6 +77,31 @@ const SchedulePage = (): JSX.Element => {
             onMouseLeave={(): void => setIsBackHovered(false)}
           />
           <h1 className={styles.title}>Itineraries</h1>
+          <div className={styles.filtersContainer}>
+            <div style={{ margin: "7px" }}>Filters: </div>
+            <DropdownSelector
+              title={"Year"}
+              handleStateChange={setYearFilter}
+              options={Array.from(
+                new Set(
+                  $itineraries.map((itinerary) => {
+                    return itinerary.year.toString();
+                  }),
+                ),
+              )}
+            />
+            <DropdownSelector
+              title={"Month"}
+              handleStateChange={setMonthFilter}
+              options={Array.from(
+                new Set(
+                  $itineraries.map((itinerary) => {
+                    return months[itinerary.month - 1];
+                  }),
+                ),
+              )}
+            />
+          </div>
         </div>
         <div className={styles.ItenerariesView}>
           {groupedItineraries.map((iteneraryGroup) => {

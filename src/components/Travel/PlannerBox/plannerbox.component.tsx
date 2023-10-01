@@ -18,23 +18,27 @@ const PlannerBox = (): JSX.Element => {
 
   const [entries, setEntries] = useState<string[]>([]);
   const [currentTime, setCurrentTime] = useState("");
-  const [currentMeal, setCurrentMeal] = useState("breakfast");
+  const [currentMeal, setCurrentMeal] = useState("Breakfast");
   const [addingTime, setAddingTime] = useState(false);
   const [editingDate, setEditingDate] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [dateToday, setDateToday] = useState(
     selectedDate.getMonth() +
+      1 +
       "/" +
       selectedDate.getDate() +
       "/" +
       selectedDate.getFullYear(),
   );
+  const [todaysItineraries, setTodaysItineraries] = useState<itinerary[]>([]);
 
   const [newItinerary, setNewItinerary] = useState<itinerary>({
     id: uuidv4(),
-    month: selectedDate.getMonth(),
-    day: selectedDate.getDay(),
+    month: selectedDate.getMonth() + 1,
+    day: selectedDate.getDate(),
     year: selectedDate.getFullYear(),
+    meal: currentMeal,
+    time: "",
   });
 
   const handleAddItinerary = (newItinerary: itinerary): void => {
@@ -44,8 +48,24 @@ const PlannerBox = (): JSX.Element => {
   const timeString = `${currentTime} ${currentMeal} at Finbomb`;
 
   useEffect(() => {
+    console.log(newItinerary);
+  })
+
+  useEffect(() => {
+    setTodaysItineraries(
+      $itineraries.filter(
+        (itinerary) =>
+          itinerary.month === selectedDate.getMonth() + 1 &&
+          itinerary.day === selectedDate.getDate() &&
+          itinerary.year === selectedDate.getFullYear(),
+      ),
+    );
+  }, [selectedDate, currentTime]);
+
+  useEffect(() => {
     setDateToday(
       selectedDate?.getMonth() +
+        1 +
         "/" +
         selectedDate?.getDate() +
         "/" +
@@ -146,22 +166,29 @@ const PlannerBox = (): JSX.Element => {
             <input
               className={styles.PlannerInput}
               type="time"
-              placeholder="Enter a time"
               onChange={(e): void => {
                 setCurrentTime(convertTimeToModern(e.target.value));
                 setNewItinerary({
                   ...newItinerary,
                   id: uuidv4(),
-                  month: selectedDate?.getMonth(),
+                  month: selectedDate?.getMonth() + 1,
                   year: selectedDate?.getFullYear(),
-                  day: selectedDate?.getDay(),
+                  day: selectedDate?.getDate(),
+                  meal: currentMeal,
+                  time: convertTimeToModern(e.target.value),
                 });
               }}
             />
             <select
               className={styles.PlannerInput}
               placeholder="Choose a meal"
-              onChange={(e): void => setCurrentMeal(e.target.value)}
+              onChange={(e): void => {
+                setCurrentMeal(e.target.value);
+                setNewItinerary({
+                  ...newItinerary,
+                  meal: e.target.value,
+                });
+              }}
             >
               <option value="Breakfast">Breakfast</option>
               <option value="Brunch">Brunch</option>
@@ -173,9 +200,9 @@ const PlannerBox = (): JSX.Element => {
           </form>
         )}
         <div>
-          {entries.map((entry, index) => (
+          {todaysItineraries.map((entry, index) => (
             <div style={{ marginTop: "10%" }} key={index}>
-              {entry}
+              {entry.time} {entry.meal} at Finbomb
             </div>
           ))}
         </div>
