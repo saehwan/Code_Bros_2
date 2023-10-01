@@ -3,6 +3,8 @@ export interface itinerary {
   month: number;
   day: number;
   year: number;
+  meal: string;
+  time: string;
 }
 
 export const months = [
