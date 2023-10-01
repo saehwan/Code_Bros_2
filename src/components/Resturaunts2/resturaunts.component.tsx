@@ -17,7 +17,7 @@ const initialYelpOptions = {
   url: "http://localhost:8080/https://api.yelp.com/v3/businesses/search",
   params: {
     term: "restaurants",
-    limit: 30,
+    limit: 45,
   },
   headers: {
     Authorization:
