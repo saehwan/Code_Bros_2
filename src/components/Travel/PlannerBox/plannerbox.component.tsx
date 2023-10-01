@@ -213,7 +213,7 @@ const PlannerBox = (): JSX.Element => {
         </div>
         <div>
           <ThemeButton
-            text={addingTime ? "Cancel Add" : "+ Add New Event"}
+            text={addingTime ? "Cancel Add" : "+ Add New Meal"}
             onClick={(): void => {
               setAddingTime(!addingTime);
               setCurrentMeal({ ...currentMeal, id: uuidv4() });

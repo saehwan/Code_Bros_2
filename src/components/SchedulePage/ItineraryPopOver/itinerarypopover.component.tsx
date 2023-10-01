@@ -76,6 +76,7 @@ const ItineraryPopover: React.FC<PopoverProps> = ({
 
             .map((entry, index) => (
               <div key={index} className={styles.mealEntry}>
+                {"- "}
                 {
                   <span style={{ fontWeight: "bold" }}>
                     {convertTimeToModern(entry.time)} |
