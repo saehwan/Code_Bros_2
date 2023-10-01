@@ -18,6 +18,8 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 10px;
+  place-items: center;
+  margin: 0 auto;
 
   /* Add these styles to control grid overflow */
   width: 100%; /* Ensure the grid takes up the entire width of its container */
@@ -65,5 +67,6 @@ button[type="submit"]:hover {
 }
 
 .restaurant-card {
-  display: flex;
+  align-self: center; /* Method 2: Center vertically */
+  justify-self: center; /* Method 2: Center horizontally */
 }

@@ -148,25 +148,34 @@ const RestaurantList: React.FC = () => {
                 />
               </div>
             ))}
+          {selectedRestaurantId.length ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <ThemeButton
+                text={"Choose"}
+                onClick={(): void =>
+                  handlePickRestaurant(selectedRestaurantName)
+                }
+                buttonType={"choose"}
+              />
+              <ThemeButton
+                text={"Cancel"}
+                onClick={(): void => {
+                  setSelectedRestaurantId("");
+                  resetSelectedResturaunt;
+                }}
+                buttonType={"delete"}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
-      {selectedRestaurantId.length ? (
-        <div style={{display: "flex", justifyContent: "space-between"}}>
-          <ThemeButton
-            text={"Cancel"}
-            onClick={(): void => {
-              setSelectedRestaurantId("");
-              resetSelectedResturaunt;
-            }}
-            buttonType={"delete"}
-          />
-          <ThemeButton
-            text={"Choose"}
-            onClick={(): void => handlePickRestaurant(selectedRestaurantName)}
-            buttonType={"choose"}
-          />
-        </div>
-      ) : null}
     </div>
   );
 };
