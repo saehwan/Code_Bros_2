@@ -53,27 +53,6 @@ const PlannerBox = (): JSX.Element => {
     });
   };
 
-  const convertTimeToModern = (time: string): string => {
-    const parts = time.split(":");
-
-    let hours = parseInt(parts[0], 10);
-    const minutes: string = parts[1];
-
-    let ampm = "AM";
-    if (hours >= 12) {
-      ampm = "PM";
-      if (hours > 12) {
-        hours -= 12;
-      }
-    } else if (hours === 0) {
-      hours = 12;
-    }
-
-    const convertedTimeString = `${hours}:${minutes} ${ampm}`;
-
-    return convertedTimeString;
-  };
-
   const handleDateChange = (date: Date): void => {
     setSelectedDate(date);
     setEditingDate(false);
@@ -236,3 +215,24 @@ const PlannerBox = (): JSX.Element => {
   );
 };
 export default PlannerBox;
+
+export const convertTimeToModern = (time: string): string => {
+  const parts = time.split(":");
+
+  let hours = parseInt(parts[0], 10);
+  const minutes: string = parts[1];
+
+  let ampm = "AM";
+  if (hours >= 12) {
+    ampm = "PM";
+    if (hours > 12) {
+      hours -= 12;
+    }
+  } else if (hours === 0) {
+    hours = 12;
+  }
+
+  const convertedTimeString = `${hours}:${minutes} ${ampm}`;
+
+  return convertedTimeString;
+};
