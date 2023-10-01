@@ -37,13 +37,15 @@
   .clockIcon {
     color: var(--white);
     cursor: pointer;
-    &:hover {
-      cursor: pointer;
+    .icon {
+      &:hover {
+        cursor: pointer;
+      }
     }
-  }
 
-  .currentItineraryList {
-    color: var(--primary);
-    font-size: larger;
+    .currentItineraryList {
+      color: var(--primary);
+      font-size: larger;
+    }
   }
 }
