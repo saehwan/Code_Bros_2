@@ -1,0 +1,24 @@
+.Planner {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2%;
+  width: 45%;
+  text-align: left;
+
+  .PlannerInput {
+    width: 40%;
+  }
+
+  .clockIcon {
+    &:hover {
+      cursor: pointer;
+      color: gray;
+    }
+  }
+}

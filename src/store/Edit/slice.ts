@@ -5,7 +5,7 @@ interface EditState {
 }
 
 const INITIAL_STATE: EditState = {
-  started: false,
+  started: true,
 };
 
 const slice = createSlice({
