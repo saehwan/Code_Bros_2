@@ -9,6 +9,7 @@ import styles from "./resturaunts.module.scss"; // Adjust the import path
 import { useDispatch } from "react-redux";
 import { AppState } from "../../store/store";
 import { useSelector } from "react-redux";
+import ThemeButton from "../GlobalComponents/ThemeButton/themebutton.component";
 
 // Define the initial Yelp API request options without the location
 const initialYelpOptions = {
@@ -16,7 +17,7 @@ const initialYelpOptions = {
   url: "http://localhost:8080/https://api.yelp.com/v3/businesses/search",
   params: {
     term: "restaurants",
-    limit: 30,
+    limit: 45,
   },
   headers: {
     Authorization:
@@ -103,10 +104,10 @@ const RestaurantList: React.FC = () => {
   return (
     <div className={styles["parent-div"]}>
       <div className={styles["form-holder"]}></div>
-      <form onSubmit={handleFormSubmit}>
+      <form style={{ width: 420 }} onSubmit={handleFormSubmit}>
         <input
           type="text"
-          placeholder="Enter location as City, State(Abbreviation)"
+          placeholder="Enter location as City, State (Abbreviation)"
           value={location}
           onChange={(e): void => setLocation(e.target.value)}
         />
@@ -147,32 +148,27 @@ const RestaurantList: React.FC = () => {
                 />
               </div>
             ))}
-          {selectedRestaurantId.length ? (
-            <>
-              <button
-                style={{ height: 20, width: 50 }}
-                onClick={(): void => {
-                  setSelectedRestaurantId("");
-                  resetSelectedResturaunt;
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                style={{ height: 20, width: 50 }}
-                onClick={(): void =>
-                  handlePickRestaurant(selectedRestaurantName)
-                }
-              >
-                Choose
-              </button>
-            </>
-          ) : null}
         </div>
       </div>
+      {selectedRestaurantId.length ? (
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <ThemeButton
+            text={"Cancel"}
+            onClick={(): void => {
+              setSelectedRestaurantId("");
+              resetSelectedResturaunt;
+            }}
+            buttonType={"delete"}
+          />
+          <ThemeButton
+            text={"Choose"}
+            onClick={(): void => handlePickRestaurant(selectedRestaurantName)}
+            buttonType={"choose"}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
 
 export default RestaurantList;
-

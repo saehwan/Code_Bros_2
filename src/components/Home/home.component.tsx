@@ -35,7 +35,7 @@ const Home = (): JSX.Element => {
     <div className={`${styles.Home} ${styles[visibility]}`}>
       <img className={styles.logo} src={Logo} alt="Code Bros Logo" />
       <p className={styles.description}>{description}</p>
-      <ThemeButton onClick={onStart} text={"Start"} />
+      <ThemeButton onClick={onStart} text={"Start"} buttonType={"normal"} />
     </div>
   );
 };
