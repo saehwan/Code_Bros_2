@@ -1,23 +1,31 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styles from "./plannerbox.module.scss";
 import ThemeButton from "../../GlobalComponents/ThemeButton/themebutton.component";
-import { Calendar } from "react-calendar";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store/store";
 import { useDispatch } from "react-redux";
-import { addItinerary } from "../../../store/Data/slice";
+import {
+  addItinerary,
+  updateItineraryNamesByDate,
+} from "../../../store/Data/slice";
 import { v4 as uuidv4 } from "uuid";
 import { itinerary } from "../../../models/itinerary";
+
+import { Calendar } from "react-calendar";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+import { Tooltip } from "@mui/material";
 
 const PlannerBox = (): JSX.Element => {
   const $itineraries = useSelector((state: AppState) => state.data.itineraries);
 
   const dispatch = useDispatch();
 
+  const [editingName, setEditingName] = useState(false);
   const [entries, setEntries] = useState<string[]>([]);
   const [currentTime, setCurrentTime] = useState("");
+  const [itineraryName, setItineraryName] = useState("");
   const [currentMeal, setCurrentMeal] = useState("Breakfast");
   const [addingTime, setAddingTime] = useState(false);
   const [editingDate, setEditingDate] = useState(false);
@@ -39,17 +47,23 @@ const PlannerBox = (): JSX.Element => {
     year: selectedDate.getFullYear(),
     meal: currentMeal,
     time: "",
+    name: "",
   });
 
   const handleAddItinerary = (newItinerary: itinerary): void => {
     dispatch(addItinerary(newItinerary)); // Dispatch the action with the new itinerary data
   };
 
-  const timeString = `${currentTime} ${currentMeal} at Finbomb`;
+  const handleChangeItineraryName = (
+    month: number,
+    day: number,
+    year: number,
+    newName: string,
+  ): void => {
+    dispatch(updateItineraryNamesByDate({ month, day, year, newName }));
+  };
 
-  useEffect(() => {
-    console.log(newItinerary);
-  })
+  const timeString = `${currentTime} ${currentMeal} at Finbomb`;
 
   useEffect(() => {
     setTodaysItineraries(
@@ -60,7 +74,7 @@ const PlannerBox = (): JSX.Element => {
           itinerary.year === selectedDate.getFullYear(),
       ),
     );
-  }, [selectedDate, currentTime]);
+  }, [selectedDate, currentTime, newItinerary]);
 
   useEffect(() => {
     setDateToday(
@@ -102,18 +116,6 @@ const PlannerBox = (): JSX.Element => {
   };
 
   const handleDateChange = (date: Date): void => {
-    const seenDates = new Set(); // A Set to store unique date combinations
-    $itineraries.forEach((itinerary) => {
-      const { month, day, year } = itinerary;
-      const dateKey = `${month}-${day}-${year}`;
-
-      if (seenDates.has(dateKey)) {
-        alert("Bad");
-      } else {
-        seenDates.add(dateKey);
-      }
-    });
-
     setSelectedDate(date);
     setEditingDate(false);
   };
@@ -139,12 +141,55 @@ const PlannerBox = (): JSX.Element => {
         >
           <Tooltip title="Choose your itinerary date!" placement="left">
             <AccessTimeIcon
-              className={styles.clockIcon}
+              className={styles.icon}
               style={{ marginRight: "1%" }}
               onClick={(): void => setEditingDate(!editingDate)}
             />
           </Tooltip>
-          <span>Itinerary for {dateToday}</span>
+          {todaysItineraries[0] ? (
+            <span>{todaysItineraries[0].name}</span>
+          ) : (
+            <span>Itinerary for {dateToday}</span>
+          )}
+          {!editingName && (
+            <Tooltip
+              title="Change the name of your daily itinerary."
+              placement="right"
+            >
+              <EditIcon
+                className={styles.icon}
+                style={{ marginLeft: "1%" }}
+                onClick={(): void => setEditingName(!editingName)}
+              />
+            </Tooltip>
+          )}
+          {editingName && (
+            <form style={{ display: "flex", alignItems: "center" }}>
+              <input
+                value={itineraryName}
+                style={{ marginLeft: "1%", width: "50%" }}
+                onChange={(e): void => {
+                  setItineraryName(e.target.value);
+                }}
+              />
+              <CheckIcon
+                className={styles.icon}
+                onClick={(): void => {
+                  setEditingName(false);
+                  setNewItinerary({
+                    ...newItinerary,
+                    name: itineraryName,
+                  });
+                  handleChangeItineraryName(
+                    selectedDate.getMonth() + 1,
+                    selectedDate.getDate(),
+                    selectedDate.getFullYear(),
+                    itineraryName,
+                  );
+                }}
+              />
+            </form>
+          )}
         </div>
         <div>
           <ThemeButton
