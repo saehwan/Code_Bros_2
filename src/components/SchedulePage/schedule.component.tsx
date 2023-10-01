@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import React, { Fragment, useMemo, useRef, useState } from "react";
 import styles from "./schedule.module.scss";
 import BackIcon from "../../assets/Back.svg";
 import BackIconDark from "../../assets/BackDark.svg";
@@ -18,8 +18,6 @@ const SchedulePage = (): JSX.Element => {
   );
   const [monthFilter, setMonthFilter] = useState<string>("");
   const [yearFilter, setYearFilter] = useState<string>("");
-
-  useEffect(() => {}, []);
 
   const $itineraries = useSelector((state: AppState) => state.data.itineraries);
 
@@ -108,7 +106,13 @@ const SchedulePage = (): JSX.Element => {
             />
           </div>
         </div>
-        <div className={styles.ItenerariesView}>
+        <div
+          className={`${
+            styles.ItenerariesView +
+            " " +
+            (groupedItineraries.length >= 3 ? styles.extraPaddingHack : "")
+          }`}
+        >
           {groupedItineraries.map((iteneraryGroup) => {
             return (
               <div
