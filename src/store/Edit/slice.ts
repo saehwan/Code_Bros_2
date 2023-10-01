@@ -2,10 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface EditState {
   started: boolean;
+
+  selectedResturaunt?: string;
 }
 
 const INITIAL_STATE: EditState = {
   started: true,
+  selectedResturaunt: undefined,
 };
 
 const slice = createSlice({
@@ -15,6 +18,12 @@ const slice = createSlice({
     setStarted: (state, action: PayloadAction<boolean>) => {
       state.started = action.payload;
     },
+    setSelectedResturaunt: (state, action: PayloadAction<string>) => {
+      state.selectedResturaunt = action.payload;
+    },
+    resetSelectedResturaunt: (state) => {
+      state.selectedResturaunt = undefined;
+    },
   },
   extraReducers: () => {},
 });
@@ -22,4 +31,5 @@ const slice = createSlice({
 export const reducer = slice.reducer;
 
 // Export the action creator
-export const { setStarted } = slice.actions;
+export const { setStarted, setSelectedResturaunt, resetSelectedResturaunt } =
+  slice.actions;
