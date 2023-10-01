@@ -1,12 +1,18 @@
 export interface itinerary {
   title?: string;
   id: string;
-  name: string;
+
   month: number;
   day: number;
   year: number;
-  meal: string;
+
+  meals: meal[];
+}
+
+export interface meal {
   time: string;
+  type: string;
+  location: string;
 }
 
 export const months = [
