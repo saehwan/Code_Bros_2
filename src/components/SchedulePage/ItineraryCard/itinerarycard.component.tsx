@@ -20,7 +20,9 @@ const ItineraryCard: React.FC<CardProps> = ({ itinerary, onClick }) => {
         <h2 className={styles.card__title}>
           {months[itinerary.month - 1] + " " + itinerary.day}
         </h2>
-        <p className={styles.card__description}>Hello</p>
+        <p className={styles.card__description}>
+          {itinerary.title && <h1>{itinerary.title}</h1>}
+        </p>
       </div>
     </div>
   );

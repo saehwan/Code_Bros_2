@@ -1,4 +1,5 @@
 export interface itinerary {
+  title?: string;
   id: string;
   month: number;
   day: number;
