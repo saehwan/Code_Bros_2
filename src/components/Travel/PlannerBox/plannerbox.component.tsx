@@ -162,7 +162,8 @@ const PlannerBox = (): JSX.Element => {
           />
         </div>
         <div style={{ marginTop: "1%", marginBottom: "1%" }}>
-          Currently Selected Restaurant: {$selectedRestaurant}
+          Currently Selected Restaurant:{" "}
+          {$selectedRestaurant ? $selectedRestaurant : "N/A"}
         </div>
         {addingTime && (
           <form
@@ -202,7 +203,11 @@ const PlannerBox = (): JSX.Element => {
             <button
               className={styles.plus}
               type="submit"
-              disabled={currentMeal.time === "" || currentMeal.type === ""}
+              disabled={
+                currentMeal.time === "" ||
+                currentMeal.type === "" ||
+                $selectedRestaurant === undefined
+              }
             >
               +
             </button>
