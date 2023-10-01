@@ -49,7 +49,7 @@ const PlannerBox = (): JSX.Element => {
 
   useEffect(() => {
     console.log(newItinerary);
-  })
+  });
 
   useEffect(() => {
     setTodaysItineraries(
@@ -135,6 +135,7 @@ const PlannerBox = (): JSX.Element => {
             display: "flex",
             width: "100%",
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Tooltip title="Choose your itinerary date!" placement="left">
@@ -160,6 +161,7 @@ const PlannerBox = (): JSX.Element => {
               justifyContent: "center",
               marginTop: "1%",
               height: 50,
+              gap: "3px",
             }}
             onSubmit={handleTimeEnter}
           >
@@ -196,10 +198,12 @@ const PlannerBox = (): JSX.Element => {
               <option value="Dinner">Dinner</option>
               <option value="Snack">Snack</option>
             </select>
-            <button type="submit">+</button>
+            <button className={styles.plus} type="submit">
+              +
+            </button>
           </form>
         )}
-        <div>
+        <div className={styles.currentItineraryList}>
           {todaysItineraries.map((entry, index) => (
             <div style={{ marginTop: "10%" }} key={index}>
               {entry.time} {entry.meal} at Finbomb

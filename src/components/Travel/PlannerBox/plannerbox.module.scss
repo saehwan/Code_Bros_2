@@ -1,6 +1,6 @@
 .Planner {
   position: relative;
-  border: 1px solid black;
+
   border-radius: 10px;
   padding: 10px;
   height: 90%;
@@ -10,15 +10,40 @@
   margin-right: 2%;
   width: 45%;
   text-align: left;
-
   .PlannerInput {
+    padding-left: 5px;
     width: 40%;
+    color: var(--white);
+    background-color: var(--primary);
+    font-size: 1.2em;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--primaryDark);
+    }
+  }
+  .plus {
+    color: var(--white);
+    background-color: var(--primary);
+    border: 2px solid var(--primaryDark);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--primaryDark);
+    }
   }
 
   .clockIcon {
+    color: var(--white);
+    cursor: pointer;
     &:hover {
       cursor: pointer;
-      color: gray;
     }
+  }
+
+  .currentItineraryList {
+    color: var(--primary);
+    font-size: larger;
   }
 }
