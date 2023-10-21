@@ -31,16 +31,16 @@ We learned new tech like typescript, applied API functions on the program, distr
 Further connecting the app to health and fitness apps as well as adding functionality to import the itineraries to Apple/Google Calendars
 
 ## Built With
-css
-git
-github
-html
-javascript
-node.js
-react
-redux
-scss
-typescript
+css, 
+git, 
+github, 
+html, 
+javascript, 
+node.js, 
+react, 
+redux, 
+scss, 
+typescript, 
 yelpapi
 
 ## Getting Started
